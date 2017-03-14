@@ -40,6 +40,15 @@ class Department:
             count += departments[sub_dept_id].count_employees()
         return count
 
+    def get_employees(self):
+        '''
+        :return: a list of employees' names
+        '''
+        list_of_employees = [employee._first_name + ' ' + employee._surname for employee in self._employees]
+        for sub_dept_id in self._sub_depts:
+            list_of_employees.extend(departments[sub_dept_id].get_employees())
+        return list_of_employees
+
 
 class Employee:
     def __init__(self, employee_id, first_name, surname, dept_id, birth_date):
@@ -124,8 +133,7 @@ def main():
         elif command.startswith("Count"):
             print(departments[dept_id].count_employees())
         elif command.startswith("People"):
-            # TODO implement People
-            print("Employees of department %d" % dept_id)
+            print(', '.join(departments[dept_id].get_employees()))
         elif command.startswith("Avgage"):
             # TODO implement Avgage
             print("Average age of employees in department %d" % dept_id)
