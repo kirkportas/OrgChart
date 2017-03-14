@@ -1,4 +1,6 @@
+#! /usr/bin/python
 import csv
+import sys
 
 
 def load_csv(orgchart_filename, employees_filename):
@@ -16,7 +18,14 @@ def load_csv(orgchart_filename, employees_filename):
     return
 
 
-if __name__ == "__main__":
-    orgchart_filename = "orgchart-data.csv"
-    employees_filename = "employees-data.csv"
+def main():
+    if len(sys.argv) < 3:
+        print("Not enough arguments!")
+        return 1
+    orgchart_filename = sys.argv[1]
+    employees_filename = sys.argv[2]
     load_csv(orgchart_filename, employees_filename)
+
+
+if __name__ == "__main__":
+    main()
