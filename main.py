@@ -8,13 +8,16 @@ class Department:
     _employees = []
 
     def __init__(self, dept_id, parent_id, name, city):
-        self._id = dept_id
-        self._parent_id = parent_id
+        assert isinstance(dept_id, int)
+        assert isinstance(parent_id, int) or parent_id == ''
+
+        self._dept_id = dept_id
+        self._parent_id = parent_id if parent_id != '' else None
         self._name = name
         self._city = city
 
     def __repr__(self):
-        return ("%d (%s), %s, %s" % (self._id, str(self._parent_id), self._name, self._city))
+        return "%d (%s), %s, %s" % (self._dept_id, str(self._parent_id), self._name, self._city)
 
 departments = {}
 
