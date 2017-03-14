@@ -25,6 +25,9 @@ class Department:
         if sub_dept_id not in self._sub_depts:
             self._sub_depts += [sub_dept_id]
 
+    def display_department(self):
+        print("%s, %s" % (self._name, self._city))
+
 departments = {}
 
 
@@ -87,8 +90,7 @@ def main():
             continue
 
         if command.startswith("Department"):
-            # TODO implement Department
-            print("Show department %d" % dept_id)
+            departments[dept_id].display_department()
         elif command.startswith("Count"):
             # TODO implement Count
             print("Count employees in department %d" % dept_id)
