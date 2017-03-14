@@ -34,6 +34,13 @@ class Department:
         if employee not in self._employees:
             self._employees.append(employee)
 
+    def count_employees(self):
+        count = len(self._employees)
+        for sub_dept_id in self._sub_depts:
+            count += departments[sub_dept_id].count_employees()
+        return count
+
+
 class Employee:
     def __init__(self, employee_id, first_name, surname, dept_id, birth_date):
         assert isinstance(dept_id, int)
@@ -115,8 +122,7 @@ def main():
         if command.startswith("Department"):
             departments[dept_id].display_department()
         elif command.startswith("Count"):
-            # TODO implement Count
-            print("Count employees in department %d" % dept_id)
+            print(departments[dept_id].count_employees())
         elif command.startswith("People"):
             # TODO implement People
             print("Employees of department %d" % dept_id)
