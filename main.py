@@ -18,15 +18,33 @@ class Department:
     def __repr__(self):
         representation = "[%d (%s), %s, %s]" % (self._dept_id, str(self._parent_id), self._name, self._city)
         if self._sub_depts != []:
-            representation += " <- " + ' '.join([str(sub_dept) for sub_dept in self._sub_depts])
+            representation += " [sub_depts: " + ' '.join([str(sub_dept) for sub_dept in self._sub_depts]) + "]"
+        if self._employees != []:
+            representation += " [employees: " + ' '.join([str(employee._employee_id) for employee in self._employees]) + "]"
         return representation
 
     def add_subdept(self, sub_dept_id):
         if sub_dept_id not in self._sub_depts:
-            self._sub_depts += [sub_dept_id]
+            self._sub_depts.append(sub_dept_id)
 
     def display_department(self):
         print("%s, %s" % (self._name, self._city))
+
+    def add_employee(self, employee):
+        if employee not in self._employees:
+            self._employees.append(employee)
+
+class Employee:
+    def __init__(self, employee_id, first_name, surname, dept_id, birth_date):
+        assert isinstance(dept_id, int)
+        assert isinstance(employee_id, int)
+
+        self._employee_id = employee_id
+        self._first_name = first_name
+        self._surname = surname
+        self._dept_id = dept_id
+        self._birth_date = birth_date
+
 
 departments = {}
 
@@ -38,6 +56,7 @@ def load_csv(orgchart_filename, employees_filename):
     print("Loading orgchart file %s..." % orgchart_filename)
     with open(orgchart_filename, encoding='cp1250') as orgchart_file:
         orgchart_reader = csv.reader(orgchart_file, delimiter=';')
+        # TODO skip empty rows
         for row in orgchart_reader:
             dept_id, parent_id, name, city = row
             # TODO verify correct CSV format
@@ -48,15 +67,19 @@ def load_csv(orgchart_filename, employees_filename):
                 departments[parent_id].add_subdept(dept_id)
             departments[dept_id] = Department(dept_id, parent_id, name, city)
 
+    print("Loading employees file %s..." % employees_filename)
+    with open(employees_filename, encoding='utf-8') as employees_file:
+        employees_reader = csv.reader(employees_file, delimiter=';')
+        for row in employees_reader:
+            # TODO fix encoding
+            employee_id, first_name, surname, dept_id, birth_date = row
+            dept_id = int(dept_id)
+            employee_id = int(employee_id)
+            new_employee = Employee(employee_id, first_name, surname, dept_id, birth_date)
+            departments[dept_id].add_employee(new_employee)
+
     for department in departments.values():
         print(department)
-
-    # print("Loading employees file %s..." % employees_filename)
-    # with open(employees_filename, encoding='cp1250') as employees_file:
-    #     employees_reader = csv.reader(employees_file, delimiter=';')
-    #     for row in employees_reader:
-    #         print('. '.join(row))
-    return
 
 
 def get_int(command):
