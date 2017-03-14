@@ -4,9 +4,6 @@ import sys
 
 
 class Department:
-    _sub_depts = []
-    _employees = []
-
     def __init__(self, dept_id, parent_id, name, city):
         assert isinstance(dept_id, int)
         assert isinstance(parent_id, int) or parent_id == ''
@@ -15,15 +12,25 @@ class Department:
         self._parent_id = parent_id if parent_id != '' else None
         self._name = name
         self._city = city
+        self._sub_depts = []
+        self._employees = []
 
     def __repr__(self):
-        return "%d (%s), %s, %s" % (self._dept_id, str(self._parent_id), self._name, self._city)
+        representation = "[%d (%s), %s, %s]" % (self._dept_id, str(self._parent_id), self._name, self._city)
+        if self._sub_depts != []:
+            representation += " <- " + ' '.join([str(sub_dept) for sub_dept in self._sub_depts])
+        return representation
+
+    def add_subdept(self, sub_dept_id):
+        if sub_dept_id not in self._sub_depts:
+            self._sub_depts += [sub_dept_id]
 
 departments = {}
 
 
 def load_csv(orgchart_filename, employees_filename):
     global departments
+
     # TODO check for invalid filenames
     print("Loading orgchart file %s..." % orgchart_filename)
     with open(orgchart_filename, encoding='cp1250') as orgchart_file:
@@ -34,13 +41,18 @@ def load_csv(orgchart_filename, employees_filename):
             dept_id = int(dept_id)
             if parent_id != '':
                 parent_id = int(parent_id)
+                # TODO check for non-existing parent_id
+                departments[parent_id].add_subdept(dept_id)
             departments[dept_id] = Department(dept_id, parent_id, name, city)
-            print(departments[dept_id])
-    print("Loading employees file %s..." % employees_filename)
-    with open(employees_filename, encoding='cp1250') as employees_file:
-        employees_reader = csv.reader(employees_file, delimiter=';')
-        for row in employees_reader:
-            print('. '.join(row))
+
+    for department in departments.values():
+        print(department)
+
+    # print("Loading employees file %s..." % employees_filename)
+    # with open(employees_filename, encoding='cp1250') as employees_file:
+    #     employees_reader = csv.reader(employees_file, delimiter=';')
+    #     for row in employees_reader:
+    #         print('. '.join(row))
     return
 
 
