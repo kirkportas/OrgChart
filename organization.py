@@ -2,10 +2,12 @@ import csv
 import datetime
 
 
-# TODO create class Organization containing Departments
 class Organization:
     def __init__(self):
         self._departments = {}
+
+    def get_departments(self):
+        return self._departments
 
     def load_csv(self, orgchart_filename, employees_filename):
         # TODO check for invalid filenames
