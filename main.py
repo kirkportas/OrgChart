@@ -1,5 +1,6 @@
 #! /usr/bin/python
 import csv
+import datetime
 import sys
 
 
@@ -17,10 +18,12 @@ class Department:
 
     def __repr__(self):
         representation = "[%d (%s), %s, %s]" % (self._dept_id, str(self._parent_id), self._name, self._city)
-        if self._sub_depts != []:
+        if self._sub_depts:
             representation += " [sub_depts: " + ' '.join([str(sub_dept) for sub_dept in self._sub_depts]) + "]"
-        if self._employees != []:
-            representation += " [employees: " + ' '.join([str(employee._employee_id) for employee in self._employees]) + "]"
+        if self._employees:
+            representation += " [employees: " +\
+                              ' '.join([str(employee._employee_id) + "(" + str(employee.get_age) + ")"
+                                        for employee in self._employees]) + "]"
         return representation
 
     def add_subdept(self, sub_dept_id):
@@ -60,6 +63,17 @@ class Employee:
         self._surname = surname
         self._dept_id = dept_id
         self._birth_date = birth_date
+
+    def get_age(self):
+        '''
+        :return: the integer age of the employee as of today
+        '''
+        today = datetime.date.today()
+        born = datetime.datetime.strptime(self._birth_date, '%d.%m.%Y').date()
+        age = today.year - born.year
+        if (today.month, today.day) < (born.month, born.day):
+            age -= 1
+        return age
 
 
 departments = {}
