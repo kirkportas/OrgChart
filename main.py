@@ -1,40 +1,7 @@
 #! /usr/bin/python
-import csv
 import sys
 
 import organization
-from organization import Department, Employee, departments
-
-
-def load_csv(orgchart_filename, employees_filename):
-    # TODO check for invalid filenames
-    print("Loading orgchart file %s..." % orgchart_filename)
-    with open(orgchart_filename, encoding='cp1250') as orgchart_file:
-        orgchart_reader = csv.reader(orgchart_file, delimiter=';')
-        # TODO skip empty rows
-        for row in orgchart_reader:
-            dept_id, parent_id, name, city = row
-            # TODO verify correct CSV format
-            dept_id = int(dept_id)
-            if parent_id != '':
-                parent_id = int(parent_id)
-                # TODO check for non-existing parent_id
-                organization.departments[parent_id].add_subdept(dept_id)
-            organization.departments[dept_id] = Department(dept_id, parent_id, name, city)
-
-    print("Loading employees file %s..." % employees_filename)
-    with open(employees_filename, encoding='utf-8') as employees_file:
-        employees_reader = csv.reader(employees_file, delimiter=';')
-        for row in employees_reader:
-            # TODO fix encoding
-            employee_id, first_name, surname, dept_id, birth_date = row
-            dept_id = int(dept_id)
-            employee_id = int(employee_id)
-            new_employee = Employee(employee_id, first_name, surname, dept_id, birth_date)
-            organization.departments[dept_id].add_employee(new_employee)
-
-    for department in organization.departments.values():
-        print(department)
 
 
 def get_int(command):
@@ -54,7 +21,9 @@ def main():
         return 1
     orgchart_filename = sys.argv[1]
     employees_filename = sys.argv[2]
-    load_csv(orgchart_filename, employees_filename)
+    org = organization.Organization()
+    org.load_csv(orgchart_filename, employees_filename)
+    departments = org._departments
     while True:
         command = input("User command: ")
         # TODO check for invalid commands
