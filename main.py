@@ -22,7 +22,7 @@ class Department:
             representation += " [sub_depts: " + ' '.join([str(sub_dept) for sub_dept in self._sub_depts]) + "]"
         if self._employees:
             representation += " [employees: " +\
-                              ' '.join([str(employee._employee_id) + "(" + str(employee.get_age) + ")"
+                              ' '.join([str(employee._employee_id) + " (" + str(employee.get_age) + ")"
                                         for employee in self._employees]) + "]"
         return representation
 
@@ -51,6 +51,23 @@ class Department:
         for sub_dept_id in self._sub_depts:
             list_of_employees.extend(departments[sub_dept_id].get_employees())
         return list_of_employees
+
+    def sum_age(self):
+        sum = 0
+        for employee in self._employees:
+            sum += employee.get_age()
+        for sub_dept in self._sub_depts:
+            sum += departments[sub_dept].sum_age()
+        return sum
+
+    def avg_age(self):
+        '''
+        :return: the average age of employees in the department and its subdepartments
+        '''
+        sum_age = self.sum_age()
+        count = self.count_employees()
+        average = sum_age / count if count != 0 else 0
+        return average
 
 
 class Employee:
@@ -149,8 +166,7 @@ def main():
         elif command.startswith("People"):
             print(', '.join(departments[dept_id].get_employees()))
         elif command.startswith("Avgage"):
-            # TODO implement Avgage
-            print("Average age of employees in department %d" % dept_id)
+            print(departments[dept_id].avg_age())
         else:
             print("Invalid command!")
             # TODO help message with list of commands
