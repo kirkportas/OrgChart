@@ -15,6 +15,7 @@ def get_int(command):
 
 
 def main():
+    list_of_commands = ["Exit", "Department", "Count", "People", "Avgage"]
     if len(sys.argv) < 3:
         print("Not enough arguments!")
         return 1
@@ -25,7 +26,10 @@ def main():
     departments = org.get_departments()
     while True:
         command = input("User command: ")
-        # TODO check for invalid commands
+        if command not in list_of_commands:
+            print("Invalid command!")
+            # TODO help message with list of commands
+
         if command == "Exit":
             break
 
@@ -46,9 +50,6 @@ def main():
             print(', '.join(departments[dept_id].get_employees()))
         elif command.startswith("Avgage"):
             print(departments[dept_id].avg_age())
-        else:
-            print("Invalid command!")
-            # TODO help message with list of commands
 
 if __name__ == "__main__":
     main()
