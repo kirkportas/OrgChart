@@ -9,7 +9,6 @@ def get_int(command):
     if len(args) != 2:
         return None
     try:
-        # TODO check for valid range of id_dept
         return int(command.split()[1])
     except ValueError:
         return None
@@ -23,7 +22,7 @@ def main():
     employees_filename = sys.argv[2]
     org = organization.Organization()
     org.load_csv(orgchart_filename, employees_filename)
-    departments = org._departments
+    departments = org.get_departments()
     while True:
         command = input("User command: ")
         # TODO check for invalid commands
@@ -34,6 +33,9 @@ def main():
         if dept_id is None:
             # TODO show this error only in combination with a valid command
             print("Invalid number argument!")
+            continue
+        elif dept_id not in org.get_departments().keys():
+            print("Invalid department ID!")
             continue
 
         if command.startswith("Department"):
