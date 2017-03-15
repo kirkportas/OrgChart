@@ -1,0 +1,5 @@
+Department 5
+Count 1
+People 1
+Avgage 1
+Exit
