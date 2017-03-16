@@ -11,11 +11,18 @@ class Organization:
         return self._departments
 
     def load_csv(self, orgchart_filename, employees_filename):
-        # TODO check for invalid filenames
-        print("Loading orgchart file %s..." % orgchart_filename)
-        self.load_departments_csv(orgchart_filename)
-        print("Loading employees file %s..." % employees_filename)
-        self.load_employees_csv(employees_filename)
+        try:
+            print("Loading orgchart file %s..." % orgchart_filename)
+            self.load_departments_csv(orgchart_filename)
+        except OSError:
+            print("Can't open file %s!" % orgchart_filename)
+            sys.exit(1)
+        try:
+            print("Loading employees file %s..." % employees_filename)
+            self.load_employees_csv(employees_filename)
+        except OSError:
+            print("Can't open file %s!" % employees_filename)
+            sys.exit(1)
         for department in self._departments.values():
             print(department)
 
@@ -35,13 +42,14 @@ class Organization:
                         self._departments[parent_id].add_subdept(dept_id)
                 except ValueError:
                     print("Wrong format in %s!" % orgchart_filename)
-                    sys.exit()
+                    sys.exit(2)
                 existing_sub_depts = []                     # backup self._departments to copy to a new instance
                 if dept_id in self._departments:
                     existing_sub_depts = self._departments[dept_id].get_sub_depts()[:]
                 self._departments[dept_id] = Department.from_CSV_row(self, dept_id, parent_id, name, city)
                 for sub_dept_id in existing_sub_depts:
                     self._departments[dept_id].add_subdept(sub_dept_id)
+
 
     def load_employees_csv(self, employees_filename):
         with open(employees_filename, encoding='utf-8') as employees_file:
@@ -55,7 +63,7 @@ class Organization:
                     employee_id = int(employee_id)
                 except ValueError:
                     print("Wrong format in %s!" % employees_filename)
-                    sys.exit()
+                    sys.exit(3)
                 # TODO fix encoding
                 new_employee = Employee(employee_id, first_name, surname, dept_id, birth_date)
                 self._departments[dept_id].add_employee(new_employee)
