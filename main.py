@@ -26,6 +26,8 @@ def main():
     departments = org.get_departments()
     while True:
         command_with_arg = input("User command: ")
+        if not command_with_arg:
+            continue
         command = command_with_arg.split()[0]
         if command not in list_of_commands:
             print("Invalid command! Supported commands: " + ', '.join(list_of_commands))
