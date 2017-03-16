@@ -27,15 +27,14 @@ class Organization:
                     continue
                 try:
                     dept_id, parent_id, name, city = row
+                    dept_id = int(dept_id)
+                    if parent_id != '':
+                        parent_id = int(parent_id)
+                        # TODO check for non-existing parent_id
+                        self._departments[parent_id].add_subdept(dept_id)
                 except ValueError:
                     print("Wrong format in %s!" % orgchart_filename)
                     sys.exit()
-                # TODO verify correct CSV format
-                dept_id = int(dept_id)
-                if parent_id != '':
-                    parent_id = int(parent_id)
-                    # TODO check for non-existing parent_id
-                    self._departments[parent_id].add_subdept(dept_id)
                 self._departments[dept_id] = Department(self, dept_id, parent_id, name, city)
 
     def load_employees_csv(self, employees_filename):
@@ -46,12 +45,12 @@ class Organization:
                     continue
                 try:
                     employee_id, first_name, surname, dept_id, birth_date = row
+                    dept_id = int(dept_id)
+                    employee_id = int(employee_id)
                 except ValueError:
                     print("Wrong format in %s!" % employees_filename)
                     sys.exit()
                 # TODO fix encoding
-                dept_id = int(dept_id)
-                employee_id = int(employee_id)
                 new_employee = Employee(employee_id, first_name, surname, dept_id, birth_date)
                 self._departments[dept_id].add_employee(new_employee)
 
