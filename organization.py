@@ -1,5 +1,6 @@
 import csv
 import datetime
+import sys
 
 
 class Organization:
@@ -18,23 +19,17 @@ class Organization:
         for department in self._departments.values():
             print(department)
 
-    def load_employees_csv(self, employees_filename):
-        with open(employees_filename, encoding='utf-8') as employees_file:
-            employees_reader = csv.reader(employees_file, delimiter=';')
-            for row in employees_reader:
-                # TODO fix encoding
-                employee_id, first_name, surname, dept_id, birth_date = row
-                dept_id = int(dept_id)
-                employee_id = int(employee_id)
-                new_employee = Employee(employee_id, first_name, surname, dept_id, birth_date)
-                self._departments[dept_id].add_employee(new_employee)
-
     def load_departments_csv(self, orgchart_filename):
         with open(orgchart_filename, encoding='cp1250') as orgchart_file:
             orgchart_reader = csv.reader(orgchart_file, delimiter=';')
-            # TODO skip empty rows
             for row in orgchart_reader:
-                dept_id, parent_id, name, city = row
+                if not row:               # skip empty rows
+                    continue
+                try:
+                    dept_id, parent_id, name, city = row
+                except ValueError:
+                    print("Wrong format in %s!" % orgchart_filename)
+                    sys.exit()
                 # TODO verify correct CSV format
                 dept_id = int(dept_id)
                 if parent_id != '':
@@ -42,6 +37,23 @@ class Organization:
                     # TODO check for non-existing parent_id
                     self._departments[parent_id].add_subdept(dept_id)
                 self._departments[dept_id] = Department(self, dept_id, parent_id, name, city)
+
+    def load_employees_csv(self, employees_filename):
+        with open(employees_filename, encoding='utf-8') as employees_file:
+            employees_reader = csv.reader(employees_file, delimiter=';')
+            for row in employees_reader:
+                if not row:               # skip empty rows
+                    continue
+                try:
+                    employee_id, first_name, surname, dept_id, birth_date = row
+                except ValueError:
+                    print("Wrong format in %s!" % employees_filename)
+                    sys.exit()
+                # TODO fix encoding
+                dept_id = int(dept_id)
+                employee_id = int(employee_id)
+                new_employee = Employee(employee_id, first_name, surname, dept_id, birth_date)
+                self._departments[dept_id].add_employee(new_employee)
 
 
 class Department:
