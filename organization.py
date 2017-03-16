@@ -63,7 +63,7 @@ class Department:
             representation += " [sub_depts: " + ' '.join([str(sub_dept) for sub_dept in self._sub_depts]) + "]"
         if self._employees:
             representation += " [employees: " +\
-                              ' '.join([str(employee._employee_id) + " (" + str(employee.get_age) + ")"
+                              ' '.join([str(employee._employee_id) + " (age " + str(employee.get_age()) + ")"
                                         for employee in self._employees]) + "]"
         return representation
 
