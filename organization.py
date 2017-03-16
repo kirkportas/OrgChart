@@ -46,7 +46,7 @@ class Organization:
                 existing_sub_depts = []                     # backup self._departments to copy to a new instance
                 if dept_id in self._departments:
                     existing_sub_depts = self._departments[dept_id].get_sub_depts()[:]
-                self._departments[dept_id] = Department.from_CSV_row(self, dept_id, parent_id, name, city)
+                self._departments[dept_id] = Department.from_csv_row(self, dept_id, parent_id, name, city)
                 for sub_dept_id in existing_sub_depts:
                     self._departments[dept_id].add_subdept(sub_dept_id)
 
@@ -78,7 +78,7 @@ class Department:
         self._employees = []
 
     @classmethod
-    def from_CSV_row(cls, organization, dept_id, parent_id, name, city):
+    def from_csv_row(cls, organization, dept_id, parent_id, name, city):
         assert isinstance(dept_id, int)
         assert isinstance(parent_id, int) or parent_id == ''
 
