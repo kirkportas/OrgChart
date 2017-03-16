@@ -121,13 +121,13 @@ class Department:
             count += self._organization._departments[sub_dept_id].count_employees()
         return count
 
-    def get_employees(self):
+    def get_employees_names(self):
         '''
         :return: a list of employees' names
         '''
         list_of_employees = [employee._first_name + ' ' + employee._surname for employee in self._employees]
         for sub_dept_id in self._sub_depts:
-            list_of_employees.extend(self._organization._departments[sub_dept_id].get_employees())
+            list_of_employees.extend(self._organization._departments[sub_dept_id].get_employees_names())
         return list_of_employees
 
     def sum_age(self):

@@ -47,7 +47,7 @@ def main():
         elif command == "Count":
             print(departments[dept_id].count_employees())
         elif command == "People":
-            print(', '.join(departments[dept_id].get_employees()))
+            print(', '.join(departments[dept_id].get_employees_names()))
         elif command == "Avgage":
             print(departments[dept_id].avg_age())
 
