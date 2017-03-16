@@ -108,8 +108,8 @@ class Department:
     def get_sub_depts(self):
         return self._sub_depts
 
-    def display_department(self):
-        print("%s, %s" % (self._name, self._city))
+    def get_department_name_location(self):
+        return "%s, %s" % (self._name, self._city)
 
     def add_employee(self, employee):
         if employee not in self._employees:

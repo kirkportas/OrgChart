@@ -43,7 +43,7 @@ def main():
         if command == "Exit":
             break
         elif command == "Department":
-            departments[dept_id].display_department()
+            print(departments[dept_id].get_department_name_location())
         elif command == "Count":
             print(departments[dept_id].count_employees())
         elif command == "People":
