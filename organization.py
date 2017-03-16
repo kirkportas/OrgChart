@@ -50,9 +50,8 @@ class Organization:
                 for sub_dept_id in existing_sub_depts:
                     self._departments[dept_id].add_subdept(sub_dept_id)
 
-
     def load_employees_csv(self, employees_filename):
-        with open(employees_filename, encoding='utf-8') as employees_file:
+        with open(employees_filename, encoding='cp1250') as employees_file:
             employees_reader = csv.reader(employees_file, delimiter=';')
             for row in employees_reader:
                 if not row:               # skip empty rows
@@ -64,7 +63,6 @@ class Organization:
                 except ValueError:
                     print("Wrong format in %s!" % employees_filename)
                     sys.exit(3)
-                # TODO fix encoding
                 new_employee = Employee(employee_id, first_name, surname, dept_id, birth_date)
                 self._departments[dept_id].add_employee(new_employee)
 
