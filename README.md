@@ -1,7 +1,16 @@
 # OrgChart
 Python demo for manipulating database of departments and employees
 
-# License
+Requirements
+------------
+
+Install requirements by
+```
+pip3 install -r requirements.txt
+```
+
+License
+-------
 OrgChart is **licensed** under the **[MIT License]**. The terms of the license are as follows:
 
     MIT License
