@@ -9,6 +9,48 @@ Install requirements by
 pip3 install -r requirements.txt
 ```
 
+Input arguments
+---------------
+
+The program will take two input arguments = two files.
+- First file contains company orgchart data
+- Second file contains employees data
+
+```
+$ python3 orgchart.py orgchart-data.csv employees-data.csv
+```
+It will load the data from two files into a memory, wait in a loop for user input commands and display corresponding
+results.
+
+Commands
+--------
+
+Command 1 – Display the department name and the city for given department ID
+
+- User command: Department 5
+- Output example: Testing, Praha
+
+
+Command 2 – Number of all employees for department INCLUDING all employees for department
+INCLUDING all its sub-departments (all levels, for example for Delivery it includes also Development,
+Python, Java) - for given department ID
+
+- User command: Count 1
+- Output example: 25
+
+Command 3 – List of names of all employees for department INCLUDING all its sub-departments (all
+levels, for example for Delivery it includes also Development, Python, Java) - for given department ID
+
+- User command: People 1
+- Output example: Jan Hora, Jiří Vereš
+
+Command 4 – Average age of all employees for department INCLUDING all its sub-departments (all
+levels, for example for Delivery it includes also Development, Python, Java) - for given department ID
+
+- User command: Avgage 1
+- Output example: 28 years
+
+
 License
 -------
 OrgChart is **licensed** under the **[MIT License]**. The terms of the license are as follows:
