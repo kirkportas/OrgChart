@@ -1,4 +1,5 @@
-# OrgChart
+# OrgChart [![Build Status](https://travis-ci.org/mathemage/OrgChart.svg?branch=master)](https://travis-ci.org/mathemage/OrgChart)
+
 Python demo for manipulating database of departments and employees
 
 Requirements
