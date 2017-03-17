@@ -1,4 +1,7 @@
+import datetime
 import unittest
+
+from dateutil.relativedelta import relativedelta
 
 import organization
 
@@ -42,8 +45,15 @@ class TestDepartmentSampleFromThreatMark(unittest.TestCase):
         self.assertListEqual(org.get_departments()[8].get_employees_names(), [])
 
     def test_avg_age(self):
-        pass
-
+        org = self._sample_organization
+        today = datetime.date.today()
+        birthday_jiri = datetime.date(1986, 8, 20)
+        birthday_jan = datetime.date(1994, 3, 12)
+        age_jiri = relativedelta(today, birthday_jiri).years
+        age_jan = relativedelta(today, birthday_jan).years
+        self.assertEqual(org.get_departments()[5].avg_age(), age_jiri)
+        self.assertEqual(org.get_departments()[6].avg_age(), age_jan)
+        self.assertAlmostEqual(org.get_departments()[1].avg_age(), (age_jan + age_jiri) / 2.0, delta=0.5)
 
 if __name__ == "__main__":
     unittest.main()
