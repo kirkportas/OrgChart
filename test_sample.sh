@@ -1,1 +1,1 @@
-python3 main.py orgchart-data.csv employees-data.csv <sample_input.txt
+python3 orgchart.py orgchart-data.csv employees-data.csv <sample_input.txt
