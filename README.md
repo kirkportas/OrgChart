@@ -1,4 +1,6 @@
-# OrgChart [![Build Status](https://travis-ci.org/mathemage/OrgChart.svg?branch=master)](https://travis-ci.org/mathemage/OrgChart)
+# OrgChart 
+[![Build Status](https://travis-ci.org/mathemage/OrgChart.svg?branch=master)](https://travis-ci.org/mathemage/OrgChart)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./License.md)
 
 Python demo for manipulating database of departments and employees
 
